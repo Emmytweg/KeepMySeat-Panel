@@ -20,14 +20,16 @@ const DEMO_TASKS = [
     id: "demo-1",
     title: "Claim a build lane",
     category: "coordination",
-    description: "Set up your first seat so the team can start the hackathon sprint.",
+    description:
+      "Set up your first seat so the team can start the hackathon sprint.",
     size_class: "md:col-span-2",
   },
   {
     id: "demo-2",
     title: "Sync Monad contract",
     category: "on-chain",
-    description: "Wire the seat-locking transaction to your wallet and test the flow.",
+    description:
+      "Wire the seat-locking transaction to your wallet and test the flow.",
     size_class: "",
   },
   {
@@ -59,11 +61,17 @@ export default function Dashboard() {
     if (typeof value === "string") return value;
 
     if (value && typeof value === "object") {
-      if ("lockedBy" in value && typeof (value as { lockedBy?: unknown }).lockedBy === "string") {
+      if (
+        "lockedBy" in value &&
+        typeof (value as { lockedBy?: unknown }).lockedBy === "string"
+      ) {
         return (value as { lockedBy: string }).lockedBy;
       }
 
-      if (0 in (value as Record<number, unknown>) && typeof (value as Record<number, unknown>)[0] === "string") {
+      if (
+        0 in (value as Record<number, unknown>) &&
+        typeof (value as Record<number, unknown>)[0] === "string"
+      ) {
         return (value as Record<number, string>)[0];
       }
     }
@@ -85,7 +93,7 @@ export default function Dashboard() {
       }
     } else {
       setErrorMessage(
-        "Please install a web3 wallet browser extension to participate."
+        "Please install a web3 wallet browser extension to participate.",
       );
     }
   };
@@ -138,7 +146,7 @@ export default function Dashboard() {
           const status = await getTaskStatus(updatedRow.id);
           setTaskStates((prev) => ({ ...prev, [updatedRow.id]: status }));
         }
-      }
+      },
     );
 
     taskChannel.subscribe();
@@ -196,7 +204,7 @@ export default function Dashboard() {
       setNewDescription("");
       setNewSize("");
       setIsModalOpen(false);
-      
+
       // Update chain tracking context instantly for the new id entry
       const status = await getTaskStatus(generatedId);
       if (status) {
@@ -272,7 +280,9 @@ export default function Dashboard() {
           {isDemoMode && (
             <div className="mb-6 p-3 rounded-xl bg-purple-950/10 border border-purple-900/40 text-purple-300 text-xs flex items-center justify-between">
               <span>
-                💡 Currently showing local placeholder tasks. Click <strong>Add Task</strong> above to initialize your direct database records!
+                💡 Currently showing local placeholder tasks. Click{" "}
+                <strong>Add Task</strong> above to initialize your direct
+                database records!
               </span>
             </div>
           )}
@@ -350,7 +360,9 @@ export default function Dashboard() {
                     </div>
 
                     <button
-                      onClick={() => handleLockClick(task.id, Boolean(isLocked))}
+                      onClick={() =>
+                        handleLockClick(task.id, Boolean(isLocked))
+                      }
                       disabled={loading || isLocked || isDemoMode}
                       className={`text-xs font-medium px-3 py-1.5 rounded-lg transition-all flex items-center gap-1.5 ${
                         isLocked
@@ -390,7 +402,8 @@ export default function Dashboard() {
               Create New Task Block
             </h2>
             <p className="text-xs text-neutral-400 mb-6">
-              Publish a fresh development task directly onto the global dashboard.
+              Publish a fresh development task directly onto the global
+              dashboard.
             </p>
 
             <form onSubmit={handleCreateTask} className="space-y-4">
@@ -437,8 +450,12 @@ export default function Dashboard() {
                   >
                     <option value="">Standard Slot (1x1)</option>
                     <option value="md:col-span-2">Wide Block (2x1)</option>
-                    <option value="md:col-span-1 md:row-span-2">Tall Block (1x2)</option>
-                    <option value="md:col-span-2 md:row-span-2">Mega Block (2x2)</option>
+                    <option value="md:col-span-1 md:row-span-2">
+                      Tall Block (1x2)
+                    </option>
+                    <option value="md:col-span-2 md:row-span-2">
+                      Mega Block (2x2)
+                    </option>
                   </select>
                 </div>
               </div>
