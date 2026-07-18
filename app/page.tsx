@@ -2,17 +2,6 @@
 
 import { useState, useEffect } from "react";
 import { useKeepMySeat } from "@/hooks/useKeepMySeat";
-import {
-  Lock,
-  Unlock,
-  ShieldAlert,
-  CheckCircle,
-  Terminal,
-  Users,
-  Loader2,
-  Plus,
-  X,
-} from "lucide-react";
 import { supabase } from "@/config/supabase";
 
 const DEMO_TASKS = [
@@ -40,6 +29,26 @@ const DEMO_TASKS = [
     size_class: "md:col-span-2",
   },
 ];
+
+function Icon({
+  children,
+  size = 16,
+  className = "",
+}: {
+  children: string;
+  size?: number;
+  className?: string;
+}) {
+  return (
+    <span
+      aria-hidden="true"
+      className={`inline-flex items-center justify-center leading-none ${className}`}
+      style={{ fontSize: size }}
+    >
+      {children}
+    </span>
+  );
+}
 
 export default function Dashboard() {
   const { lockTask, getTaskStatus, loading } = useKeepMySeat();
@@ -227,7 +236,10 @@ export default function Dashboard() {
       <header className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-12 pb-6 border-b border-neutral-800">
         <div>
           <div className="flex items-center gap-2 text-purple-400 font-mono text-sm mb-1">
-            <Terminal size={14} /> MONAD SPARK HACKATHON
+            <Icon size={14} className="font-mono">
+              ⌘
+            </Icon>{" "}
+            MONAD SPARK HACKATHON
           </div>
           <h1 className="text-3xl font-extrabold tracking-tight">
             KeepMySeat Panel
@@ -239,7 +251,7 @@ export default function Dashboard() {
             onClick={() => setIsModalOpen(true)}
             className="px-4 py-2.5 rounded-xl font-medium text-sm border border-neutral-800 bg-neutral-900/50 hover:bg-neutral-900 text-neutral-200 transition-all flex items-center gap-2 active:scale-95"
           >
-            <Plus size={16} /> Add Task
+            <Icon size={16}>＋</Icon> Add Task
           </button>
 
           <button
@@ -250,7 +262,7 @@ export default function Dashboard() {
                 : "bg-purple-600 hover:bg-purple-500 text-white shadow-lg shadow-purple-600/20"
             }`}
           >
-            <Users size={16} />
+            <Icon size={16}>◉</Icon>
             {walletAddress
               ? `${walletAddress.slice(0, 6)}...${walletAddress.slice(-4)}`
               : "Connect Team Wallet"}
@@ -261,7 +273,9 @@ export default function Dashboard() {
       {/* Error Toast Notification */}
       {errorMessage && (
         <div className="mb-6 p-4 rounded-xl bg-red-950/40 border border-red-800 text-red-400 flex items-center gap-3 text-sm animate-in fade-in slide-in-from-top-2 duration-300">
-          <ShieldAlert size={18} className="shrink-0" />
+          <Icon size={18} className="shrink-0">
+            ⚠
+          </Icon>
           <p>{errorMessage}</p>
         </div>
       )}
@@ -269,7 +283,9 @@ export default function Dashboard() {
       {/* Main UI Body Grid Renderer */}
       {isLoading ? (
         <div className="rounded-2xl border border-neutral-800 bg-neutral-950/60 p-12 text-center text-neutral-400 flex flex-col items-center justify-center gap-3 min-h-75">
-          <Loader2 className="animate-spin text-purple-500" size={24} />
+          <Icon size={24} className="animate-spin text-purple-500">
+            ↻
+          </Icon>
           <p className="text-sm font-mono tracking-wide text-neutral-500">
             LOADING MOCK LANES FROM DATABASE ENGINE...
           </p>
@@ -326,16 +342,16 @@ export default function Dashboard() {
                       {isLocked ? (
                         isUserOwner ? (
                           <span className="p-2 bg-purple-500/10 text-purple-400 rounded-lg block">
-                            <CheckCircle size={16} />
+                            <Icon size={16}>✓</Icon>
                           </span>
                         ) : (
                           <span className="p-2 bg-neutral-800 text-neutral-500 rounded-lg block">
-                            <Lock size={16} />
+                            <Icon size={16}>🔒</Icon>
                           </span>
                         )
                       ) : (
                         <span className="p-2 bg-neutral-900 border border-neutral-800 text-neutral-400 rounded-lg block group-hover:text-purple-400 group-hover:border-purple-950 transition-colors">
-                          <Unlock size={16} />
+                          <Icon size={16}>🔓</Icon>
                         </span>
                       )}
                     </div>
@@ -371,7 +387,9 @@ export default function Dashboard() {
                       }`}
                     >
                       {loading ? (
-                        <Loader2 size={12} className="animate-spin" />
+                        <Icon size={12} className="animate-spin">
+                          ↻
+                        </Icon>
                       ) : isLocked ? (
                         "Locked"
                       ) : (
@@ -395,7 +413,7 @@ export default function Dashboard() {
               className="absolute top-4 r-4 text-neutral-400 hover:text-white p-1 rounded-lg hover:bg-neutral-800 transition-colors"
               style={{ right: "1.5rem" }}
             >
-              <X size={18} />
+              <Icon size={18}>×</Icon>
             </button>
 
             <h2 className="text-xl font-bold tracking-tight mb-1 text-white">
@@ -489,7 +507,10 @@ export default function Dashboard() {
                 >
                   {isSubmitting ? (
                     <>
-                      <Loader2 size={14} className="animate-spin" /> Saving...
+                      <Icon size={14} className="animate-spin">
+                        ↻
+                      </Icon>{" "}
+                      Saving...
                     </>
                   ) : (
                     "Publish Task"
